@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تطور الهاكر - من الصفر إلى المحترف</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        :root {
+            --primary: #0d1117;
+            --secondary: #161b22;
+            --accent: #238636;
+            --text: #e6edf3;
+            --highlight: #2ea043;
+        }
+        
+        body {
+            background: var(--primary);
+            color: var(--text);
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* التصميم العلوي */
+        header {
+            background: var(--secondary);
+            padding: 20px 0;
+            border-bottom: 1px solid #30363d;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: var(--highlight);
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 25px;
+        }
+        
+        .nav-links a {
+            color: var(--text);
+            text-decoration: none;
+            font-weight: 500;
+            transition: 0.3s;
+            padding: 8px 15px;
+            border-radius: 5px;
+        }
+        
+        .nav-links a:hover {
+            background: rgba(35, 134, 54, 0.2);
+            color: var(--highlight);
+        }
+        
+        /* قسم البطل */
+        .hero {
+            background: linear-gradient(135deg, #0d1117 0%, #0a2e1a 100%);
+            padding: 80px 0;
+            text-align: center;
+        }
+        
+        .hero-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            background: linear-gradient(45deg, #238636, #3fb950);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            color: #8b949e;
+        }
+        
+        .btn {
+            display: inline-block;
+            background: var(--accent);
+            color: white;
+            padding: 12px 30px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1.1rem;
+            transition: 0.3s;
+            border: 1px solid rgba(35, 134, 54, 0.4);
+        }
+        
+        .btn:hover {
+            background: #2ea043;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+        
+        /* مسارات التعلم */
+        .learning-paths {
+            padding: 80px 0;
+            background: var(--primary);
+        }
+        
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 50px;
+            color: var(--highlight);
+            position: relative;
+        }
+        
+        .section-title::after {
+            content: "";
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: var(--accent);
+            border-radius: 2px;
+        }
+        
+        .paths-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        
+        .path-card {
+            background: var(--secondary);
+            border-radius: 10px;
+            overflow: hidden;
+            border: 1px solid #30363d;
+            transition: 0.3s;
+        }
+        
+        .path-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--accent);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+        
+        .card-header {
+            padding: 25px;
+            border-bottom: 1px solid #30363d;
+        }
+        
+        .card-header i {
+            font-size: 2.5rem;
+            color: var(--accent);
+            margin-bottom: 15px;
+        }
+        
+        .card-header h3 {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+        }
+        
+        .card-content {
+            padding: 25px;
+        }
+        
+        .card-content ul {
+            list-style-type: none;
+            margin: 20px 0;
+        }
+        
+        .card-content ul li {
+            padding: 8px 0;
+            padding-left: 25px;
+            position: relative;
+        }
+        
+        .card-content ul li::before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: var(--accent);
+            font-weight: bold;
+        }
+        
+        /* قسم المختبر التفاعلي */
+        .lab {
+            padding: 80px 0;
+            background: linear-gradient(135deg, #0a0f17 0%, #0d1b1f 100%);
+        }
+        
+        .lab-container {
+            display: flex;
+            gap: 40px;
+            align-items: center;
+        }
+        
+        .lab-content {
+            flex: 1;
+        }
+        
+        .lab-image {
+            flex: 1;
+            text-align: center;
+        }
+        
+        .lab-image img {
+            max-width: 100%;
+            border-radius: 10px;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
+        }
+        
+        .terminal {
+            background: #0d1117;
+            border-radius: 8px;
+            overflow: hidden;
+            margin-top: 30px;
+            border: 1px solid #30363d;
+        }
+        
+        .terminal-header {
+            background: #161b22;
+            padding: 10px 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .terminal-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+        
+        .dot-red { background: #f85149; }
+        .dot-yellow { background: #f2cc60; }
+        .dot-green { background: #238636; }
+        
+        .terminal-body {
+            padding: 20px;
+            font-family: 'Courier New', monospace;
+            line-height: 1.8;
+        }
+        
+        .terminal-body .command {
+            color: #238636;
+        }
+        
+        .terminal-body .output {
+            color: #8b949e;
+            margin-top: 10px;
+        }
+        
+        /* قسم التحديات */
+        .challenges {
+            padding: 80px 0;
+            background: var(--primary);
+        }
+        
+        .challenges-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+        }
+        
+        .challenge-card {
+            background: var(--secondary);
+            border-radius: 10px;
+            padding: 30px;
+            border: 1px solid #30363d;
+            transition: 0.3s;
+        }
+        
+        .challenge-card:hover {
+            border-color: var(--accent);
+            transform: scale(1.03);
+        }
+        
+        .challenge-card h3 {
+            margin-bottom: 15px;
+            color: var(--highlight);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .difficulty {
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            margin-top: 10px;
+        }
+        
+        .easy { background: rgba(35, 134, 54, 0.2); color: #3fb950; }
+        .medium { background: rgba(245, 109, 0, 0.2); color: #f56d00; }
+        .hard { background: rgba(248, 81, 73, 0.2); color: #f85149; }
+        
+        /* قسم المكافآت */
+        .achievements {
+            padding: 80px 0;
+            background: linear-gradient(135deg, #0d1b1f 0%, #0a0f17 100%);
+            text-align: center;
+        }
+        
+        .stats {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            flex-wrap: wrap;
+            margin-top: 50px;
+        }
+        
+        .stat-item {
+            background: rgba(22, 27, 34, 0.5);
+            padding: 30px;
+            border-radius: 10px;
+            min-width: 200px;
+            border: 1px solid #30363d;
+        }
+        
+        .stat-item i {
+            font-size: 2.5rem;
+            color: var(--accent);
+            margin-bottom: 15px;
+        }
+        
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: var(--highlight);
+            margin-bottom: 5px;
+        }
+        
+        /* التذييل */
+        footer {
+            background: var(--secondary);
+            padding: 50px 0 20px;
+            border-top: 1px solid #30363d;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+        
+        .footer-section h3 {
+            color: var(--highlight);
+            margin-bottom: 20px;
+            font-size: 1.3rem;
+        }
+        
+        .footer-links {
+            list-style: none;
+        }
+        
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+        
+        .footer-links a {
+            color: #8b949e;
+            text-decoration: none;
+            transition: 0.3s;
+        }
+        
+        .footer-links a:hover {
+            color: var(--accent);
+        }
+        
+        .copyright {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid #30363d;
+            color: #8b949e;
+        }
+        
+        /* تصميم متجاوب */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            
+            .hero h1 {
+                font-size: 2.2rem;
+            }
+            
+            .lab-container {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- الرأس -->
+    <header>
+        <div class="container">
+            <nav>
+                <div class="logo">
+                    <i class="fas fa-user-secret"></i>
+                    <span>تطور الهاكر</span>
+                </div>
+                <div class="nav-links">
+                    <a href="#paths">المسارات</a>
+                    <a href="#lab">المختبر</a>
+                    <a href="#challenges">التحديات</a>
+                    <a href="#achievements">الإنجازات</a>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- قسم البطل -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1>من الصفر إلى الهاكر الرمادي المحترف</h1>
+                <p>موقع تعليمي متكامل لتعلم القرصنة الأخلاقية خطوة بخطوة، بدءاً من الأساسيات وصولاً إلى التقنيات المتقدمة باستخدام الذكاء الاصطناعي.</p>
+                <a href="#paths" class="btn">ابدأ الرحلة الآن</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- مسارات التعلم -->
+    <section id="paths" class="learning-paths">
+        <div class="container">
+            <h2 class="section-title">مسارات التعلم</h2>
+            <div class="paths-grid">
+                <!-- المسار 1 -->
+                <div class="path-card">
+                    <div class="card-header">
+                        <i class="fas fa-network-wired"></i>
+                        <h3>أساسيات الشبكات</h3>
+                    </div>
+                    <div class="card-content">
+                        <p>اللبنة الأساسية لأي هاكر محترف</p>
+                        <ul>
+                            <li>بروتوكولات الشبكات (TCP/IP, DNS, HTTP)</li>
+                            <li>أجهزة الشبكات والبنية التحتية</li>
+                            <li>تحليل حركة المرور (Wireshark)</li>
+                            <li>شبكات VPN و TOR</li>
+                            <li>هندسة الشبكات المتقدمة</li>
+                        </ul>
+                        <a href="#" class="btn">البدء بالمسار</a>
+                    </div>
+                </div>
+                
+                <!-- المسار 2 -->
+                <div class="path-card">
+                    <div class="card-header">
+                        <i class="fas fa-terminal"></i>
+                        <h3>نظام لينكس للأمن</h3>
+                    </div>
+                    <div class="card-content">
+                        <p>نظام التشغيل المفضل للهاكرز</p>
+                        <ul>
+                            <li>أساسيات سطر الأوامر</li>
+                            <li>إدارة المستخدمين والصلاحيات</li>
+                            <li>أدوات الأمن (Nmap, Netcat, Tcpdump)</li>
+                            <li>تأمين الخوادم</li>
+                            <li>التشغيل الآلي باستخدام Bash</li>
+                        </ul>
+                        <a href="#" class="btn">البدء بالمسار</a>
+                    </div>
+                </div>
+                
+                <!-- المسار 3 -->
+                <div class="path-card">
+                    <div class="card-header">
+                        <i class="fas fa-code"></i>
+                        <h3>برمجة للأمن السيبراني</h3>
+                    </div>
+                    <div class="card-content">
+                        <p>بناء أدواتك الخاصة</p>
+                        <ul>
+                            <li>بايثون للأمن السيبراني</li>
+                            <li>تطوير أدوات الاختراق</li>
+                            <li>قراءة وفهم الشيفرات الخبيثة</li>
+                            <li>أتمتة المهام الأمنية</li>
+                            <li>التطوير الآمن</li>
+                        </ul>
+                        <a href="#" class="btn">البدء بالمسار</a>
+                    </div>
+                </div>
+                
+                <!-- المسار 4 -->
+                <div class="path-card">
+                    <div class="card-header">
+                        <i class="fas fa-shield-alt"></i>
+                        <h3>الاختراق الأخلاقي</h3>
+                    </div>
+                    <div class="card-content">
+                        <p>فن اكتشاف الثغرات</p>
+                        <ul>
+                            <li>جمع المعلومات والاستطلاع</li>
+                            <li>تحليل الثغرات والاستغلال</li>
+                            <li>اختبار الاختراق (Penetration Testing)</li>
+                            <li>هندسة اجتماعية متقدمة</li>
+                            <li>تقرير النتائج المهنية</li>
+                        </ul>
+                        <a href="#" class="btn">البدء بالمسار</a>
+                    </div>
+                </div>
+                
+                <!-- المسار 5 -->
+                <div class="path-card">
+                    <div class="card-header">
+                        <i class="fas fa-brain"></i>
+                        <h3>الذكاء الاصطناعي في الأمن</h3>
+                    </div>
+                    <div class="card-content">
+                        <p>مستقبل الأمن السيبراني</p>
+                        <ul>
+                            <li>كشف التهديدات بالذكاء الاصطناعي</li>
+                            <li>هجمات خداع الذكاء الاصطناعي</li>
+                            <li>تطوير نماذج تنبؤية</li>
+                            <li>أتمتة استجابة الحوادث</li>
+                            <li>هاكرز المستقبل</li>
+                        </ul>
+                        <a href="#" class="btn">البدء بالمسار</a>
+                    </div>
+                </div>
+                
+                <!-- المسار 6 -->
+                <div class="path-card">
+                    <div class="card-header">
+                        <i class="fas fa-user-secret"></i>
+                        <h3>الهاكر الرمادي</h3>
+                    </div>
+                    <div class="card-content">
+                        <p>الجانب الأخلاقي العملي</p>
+                        <ul>
+                            <li>القوانين والأطر الأخلاقية</li>
+                            <li>البحث عن الثغرات القانوني</li>
+                            <li>برامج المكافآت الأمنية</li>
+                            <li>العمل كمستشار أمني</li>
+                            <li>بناء مستقبل مهني</li>
+                        </ul>
+                        <a href="#" class="btn">البدء بالمسار</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- المختبر التفاعلي -->
+    <section id="lab" class="lab">
+        <div class="container">
+            <h2 class="section-title">المختبر التفاعلي</h2>
+            <div class="lab-container">
+                <div class="lab-content">
+                    <h3>تدرب مباشرة في متصفحك</h3>
+                    <p>لا حاجة لتثبيت برامج، تدرب على تقنيات الأمن السيبراني مباشرة في متصفحك باستخدام بيئات افتراضية آمنة وقانونية.</p>
+                    
+                    <div class="terminal">
+                        <div class="terminal-header">
+                            <div class="terminal-dot dot-red"></div>
+                            <div class="terminal-dot dot-yellow"></div>
+                            <div class="terminal-dot dot-green"></div>
+                        </div>
+                        <div class="terminal-body">
+                            <span class="command">$ nmap -sV example.com</span><br>
+                            <div class="output">
+                                Starting Nmap 7.92<br>
+                                PORT    STATE SERVICE    VERSION<br>
+                                22/tcp  open  ssh        OpenSSH 8.2p1<br>
+                                80/tcp  open  http       Apache 2.4.41<br>
+                                443/tcp open  ssl/http   Apache 2.4.41<br>
+                            </div>
+                            <br>
+                            <span class="command">$ python exploit.py --target example.com</span><br>
+                            <div class="output">
+                                [+] Target vulnerable: CVE-2023-1234<br>
+                                [+] Exploit sent successfully<br>
+                                [+] Shell access gained<br>
+                                $ whoami<br>
+                                root
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <a href="#" class="btn" style="margin-top: 20px;">فتح المختبر</a>
+                </div>
+                <div class="lab-image">
+                    <img src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&q=80&w=1000" alt="مختبر افتراضي">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- تحديات أمنية -->
+    <section id="challenges" class="challenges">
+        <div class="container">
+            <h2 class="section-title">تحديات أمنية</h2>
+            <div class="challenges-grid">
+                <div class="challenge-card">
+                    <h3><i class="fas fa-lock"></i> كسر التشفير البسيط</h3>
+                    <p>فك تشفير رسالة باستخدام تقنيات التشفير الكلاسيكية.</p>
+                    <div class="difficulty easy">سهل</div>
+                </div>
+                
+                <div class="challenge-card">
+                    <h3><i class="fas fa-user-shield"></i> اختراق خادم ويب</h3>
+                    <p>اكتشف الثغرات في خادم ويب واس
