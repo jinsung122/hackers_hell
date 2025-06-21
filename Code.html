@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>HACKER_HELL</title>
+    <style>
+        body {
+            background: black;
+            color: red;
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding-top: 100px;
+        }
+        h1 {
+            font-size: 60px;
+            text-shadow: 0 0 10px #ff0000;
+            animation: blink 1s infinite;
+        }
+        @keyframes blink {
+            50% { opacity: 0.5; }
+        }
+        button {
+            background: #ff0000;
+            color: white;
+            font-size: 24px;
+            padding: 15px 40px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 30px;
+        }
+        #result {
+            display: none;
+            margin-top: 50px;
+            font-size: 30px;
+            color: #ffcc00;
+        }
+        img {
+            max-width: 300px;
+            margin-top: 20px;
+            border: 3px solid red;
+            box-shadow: 0 0 20px red;
+        }
+    </style>
+</head>
+<body>
+    <h1>HACKER_HELL</h1>
+    <p>أكاديمية الاختراق المظلم - المستوى الشيطاني</p>
+    
+    <button onclick="hack()">بدء الاختراق المجاني</button>
+    
+    <div id="result">
+        لقد تمّ خداعك بواسطة زاو فان!<br>
+        <div>علم أمريكا:</div>
+        <img id="flag" src="" alt="American Flag">
+        <div>صورة زاو فان:</div>
+        <img id="zhao" src="" alt="Zhao Fan">
+    </div>
+
+    <script>
+        // روابط الصور (استبدلها بروابطك الخاصة)
+        const AMERICAN_FLAG = "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c3/Flag_of_the_United_States.svg/640px-Flag_of_the_United_States.svg.png";
+        const ZHAO_FAN_IMG = "https://i.pinimg.com/736x/3c/3d/51/3c3d51b4e1b9c4d9b8f5e5e8e5e5e5e5.jpg";
+        
+        function hack() {
+            const btn = document.querySelector('button');
+            const result = document.getElementById('result');
+            
+            // الخطوة 1: تغيير الزر
+            btn.textContent = 'جاري الاختراق...';
+            btn.disabled = true;
+            
+            // الخطوة 2: الانتظار 3 ثواني
+            setTimeout(() => {
+                // الخطوة 3: إظهار النتيجة
+                result.style.display = 'block';
+                
+                // الخطوة 4: تحميل الصور
+                document.getElementById('flag').src = AMERICAN_FLAG;
+                document.getElementById('zhao').src = ZHAO_FAN_IMG;
+                
+                // الخطوة 5: إخفاء الزر
+                btn.style.display = 'none';
+            }, 3000);
+        }
+    </script>
+</body>
+</html>
